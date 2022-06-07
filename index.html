@@ -203,9 +203,9 @@
             }
         }
         nextOfSDT.onclick = () => {
-            if (valueOfSDT[indexOfSDT][0] && valueOfSDT.length > 0) {
+            if (valueOfSDT.length > 0) {
                 timeUseSDT = 0;
-                SDT.value = valueOfSDT[indexOfSDT++];
+                SDT.value = valueOfSDT[++indexOfSDT];
                 SDTIndex.innerHTML = timeUseSDT;
             } else {
             }
