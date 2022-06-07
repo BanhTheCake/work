@@ -17,6 +17,7 @@
     }
     body {
         overflow-x: hidden;
+        margin-bottom: 40px;
     }
     .text-input {
         display: flex;
@@ -59,31 +60,104 @@
     .text-output input {
         padding: 5px;
         margin-right: 10px;
+        font-size: 16px;
     }
     .text-output__phone {
         margin-bottom: 10px;
+    }
+    button {
+        padding: 5px;
+        width: 80px;
+    }
+    .text {
+        margin-bottom: 5px;
     }
 </style>
 <body>
     <div class="text-input">
         <p>Nhập email: </p>
-        <textarea name="" id="" ></textarea>
+        <textarea class="text-input__mail" name="" id="" ></textarea>
     </div>
     <div class="text-input-phone">
         <p>Nhập SDT: </p>
-        <textarea name="" id="" ></textarea>
+        <textarea class="text-input__SDT" name="" id="" ></textarea>
     </div>
     <div class="text-output">
         <div class="text-output__phone">
-            <input type="text">
-            <button>Copy</button>
-            <button>Next</button>
+            <p class="text index-of-SDT">Số lần Sử dụng SDT: <span>0</span></p>
+            <input class="SDT" type="text">
+            <button class="copy-of-SDT">Copy</button>
+            <button class="next-of-SDT">Next</button>
         </div>
         <div class="text-output__email">
-            <input type="text">
-            <button>Copy</button>
-            <button>Next</button>
+            <p class="text index-of-mail">Vị trí của mail: <span>0</span></p>
+                <input class="mail" type="text">
+                <button class="copy-of-mail">Copy</button>
+                <button class="next-of-mail">Next</button>
+            </div>
         </div>
     </div>
+    <script>
+        const textInputMail = document.querySelector('.text-input__mail');
+        const mail = document.querySelector('.mail');
+        const mailIndex = document.querySelector('.index-of-mail > span');
+        const copyOfMail = document.querySelector('.copy-of-mail');
+        const nextOfMail = document.querySelector('.next-of-mail');
+        const textInputSDT = document.querySelector('.text-input__SDT');
+        const SDT = document.querySelector('.SDT');
+        const SDTIndex = document.querySelector('.index-of-SDT > span');
+        const copyOfSDT = document.querySelector('.copy-of-SDT');
+        const nextOfSDT = document.querySelector('.next-of-SDT');
+        let indexOfMail = 0;
+        let valueOfMail = [];
+        let indexOfSDT = 0;
+        let valueOfSDT = [];
+        let timeUseSDT = 0;
+        textInputMail.oninput = () => {
+            const valueOfText = textInputMail.value.split('\n');
+            valueOfMail = [];
+            indexOfMail = 0;
+            valueOfText.forEach((value, index) => {
+                const text = [];
+                text.push(value.split('\t')[0])
+                text.push(value.split('\t')[1]);
+                valueOfMail.push(text)
+            });
+            mail.value = valueOfMail[indexOfMail][0];
+            mailIndex.innerHTML = ++indexOfMail;
+        }
+        textInputSDT.oninput = () => {
+            const valueOfText = textInputSDT.value.split('\n');
+            valueOfSDT = [...valueOfText];
+            indexOfSDT = 0;
+            SDT.value = valueOfSDT[0];
+            SDTIndex.innerHTML = timeUseSDT;
+        }
+        copyOfMail.onclick = async () => {
+            await navigator.clipboard.writeText(mail.value || 'empty');
+            const text = await navigator.clipboard.readText();
+        }
+
+        copyOfSDT.onclick = async () => {
+            await navigator.clipboard.writeText(SDT.value || 'empty');
+            const text = await navigator.clipboard.readText();
+            SDTIndex.innerHTML = ++timeUseSDT;
+        }
+        nextOfMail.onclick = () => {
+            if (valueOfMail[indexOfMail][0] && valueOfMail.length > 0) {
+                mail.value = valueOfMail[indexOfMail][0];
+                mailIndex.innerHTML = ++indexOfMail;
+            } else {
+            }
+        }
+        nextOfSDT.onclick = () => {
+            if (valueOfSDT[indexOfSDT][0] && valueOfSDT.length > 0) {
+                timeUseSDT = 0;
+                SDT.value = valueOfSDT[indexOfSDT++];
+                SDTIndex.innerHTML = timeUseSDT;
+            } else {
+            }
+        }
+    </script>
 </body>
 </html>
