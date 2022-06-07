@@ -199,6 +199,9 @@
             if (valueOfMail[indexOfMail][0] && valueOfMail.length > 0) {
                 mail.value = valueOfMail[indexOfMail][0];
                 mailIndex.innerHTML = ++indexOfMail;
+                if (password.innerHTML !== valueOfMail[indexOfMail][1]) {
+                    password.innerHTML = valueOfMail[indexOfMail][1]
+                }
             } else {
             }
         }
