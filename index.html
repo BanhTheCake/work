@@ -113,6 +113,44 @@
         let indexOfSDT = 0;
         let valueOfSDT = [];
         let timeUseSDT = 0;
+
+
+        function copyToClipboard(string) {
+            let textarea;
+            let result;
+
+            try {
+                textarea = document.createElement('textarea');
+                textarea.setAttribute('readonly', true);
+                textarea.setAttribute('contenteditable', true);
+                textarea.style.position = 'fixed'; 
+                textarea.value = string;
+
+                document.body.appendChild(textarea);
+
+                textarea.focus();
+                textarea.select();
+
+                const range = document.createRange();
+                range.selectNodeContents(textarea);
+
+                const sel = window.getSelection();
+                sel.removeAllRanges();
+                sel.addRange(range);
+
+                textarea.setSelectionRange(0, textarea.value.length);
+                result = document.execCommand('copy');
+            } catch (err) {
+                console.error(err);
+                result = null;
+            } finally {
+                document.body.removeChild(textarea);
+            }
+            return true;
+        }
+
+
+
         textInputMail.oninput = () => {
             const valueOfText = textInputMail.value.split('\n');
             valueOfMail = [];
@@ -134,17 +172,12 @@
             SDTIndex.innerHTML = timeUseSDT;
         }
         copyOfMail.onclick = async () => {
-            mail.select();
-            mail.setSelectionRange(0, 99999);
-            await navigator.clipboard.writeText(mail.value || 'empty');
+            copyToClipboard(mail.value)
             const text = await navigator.clipboard.readText();
         }
 
-        copyOfSDT.onclick = async () => {
-            SDT.select();
-            SDT.setSelectionRange(0, 99999);
-            await navigator.clipboard.writeText(SDT.value || 'empty');
-            const text = await navigator.clipboard.readText();
+        copyOfSDT.onclick = () => {
+            copyToClipboard(SDT.value)
             SDTIndex.innerHTML = ++timeUseSDT;
         }
         nextOfMail.onclick = () => {
