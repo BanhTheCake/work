@@ -100,6 +100,7 @@
             <button class="copy-of-SDT">Copy</button>
             <button class="next-of-SDT">Next</button>
         </div>
+        <p class="password">MK: <span></span></p>
         <div class="text-output__email">
             <p class="text index-of-mail">Vị trí của mail: <span>0</span></p>
             <input class="mail" type="text">
@@ -119,11 +120,13 @@
         const SDTIndex = document.querySelector('.index-of-SDT > span');
         const copyOfSDT = document.querySelector('.copy-of-SDT');
         const nextOfSDT = document.querySelector('.next-of-SDT');
+        const password = document.querySelector('.password > span');
         let indexOfMail = 0;
         let valueOfMail = [];
         let indexOfSDT = 0;
         let valueOfSDT = [];
         let timeUseSDT = 0;
+        console.log(password);
 
 
         function copyToClipboard(string) {
@@ -173,6 +176,7 @@
                 valueOfMail.push(text)
             });
             mail.value = valueOfMail[indexOfMail][0];
+            password.innerHTML = valueOfMail[0][1]
             mailIndex.innerHTML = ++indexOfMail;
         }
         textInputSDT.oninput = () => {
