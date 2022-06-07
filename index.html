@@ -134,11 +134,15 @@
             SDTIndex.innerHTML = timeUseSDT;
         }
         copyOfMail.onclick = async () => {
+            mail.select();
+            mail.setSelectionRange(0, 99999);
             await navigator.clipboard.writeText(mail.value || 'empty');
             const text = await navigator.clipboard.readText();
         }
 
         copyOfSDT.onclick = async () => {
+            SDT.select();
+            SDT.setSelectionRange(0, 99999);
             await navigator.clipboard.writeText(SDT.value || 'empty');
             const text = await navigator.clipboard.readText();
             SDTIndex.innerHTML = ++timeUseSDT;
